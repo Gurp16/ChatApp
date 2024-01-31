@@ -1,0 +1,50 @@
+- Users
+  - userId
+  - username
+  - email
+  - password
+  - notificationToken
+  - createdAt
+  - lastLogin
+  - lastNotification
+  - notificationSettings
+
+- AuthenticationTokens
+  - userId
+  - token
+  - expiration
+
+- LoginActivity
+  - userId
+  - timestamp
+  - ipAddress
+
+- SignupRequests
+  - requestId
+  - username
+  - email
+  - password
+  - status
+  - timestamp
+
+- Chats
+  - chatId
+  - participants
+  - chatName
+  - lastMessage
+  - lastActivityTimestamp
+
+- Messages
+  - messageId
+  - chatId
+  - senderId
+  - timestamp
+  - content
+
+- Notifications
+  - notificationId
+  - userId
+  - type
+  - messageId
+  - isRead
+  - timestamp
