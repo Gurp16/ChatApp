@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "224314939107",
+    "firebase_url": "https://messengerapp-dc6dd-default-rtdb.firebaseio.com",
+    "project_id": "messengerapp-dc6dd",
+    "storage_bucket": "messengerapp-dc6dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224314939107:android:b7a9633f59cdcbcaa097d6",
+        "android_client_info": {
+          "package_name": "com.example.messengerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224314939107-lv6f21o08471t0piivq673fu3tnnoo7h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.messengerapp",
+            "certificate_hash": "144df99777e368403a194ed818ee3952df5f1fab"
+          }
+        },
+        {
+          "client_id": "224314939107-inetlnnb6go3rek21bddc5uki85lucfl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDN_sGNdg-XTk3P80pjRIMA1kjXh5g_bnI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224314939107-inetlnnb6go3rek21bddc5uki85lucfl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
