@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.messengerapp"
+    namespace = "com.message.messengerapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.messengerapp"
+        applicationId = "com.message.messengerapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

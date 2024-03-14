@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:224314939107:android:b7a9633f59cdcbcaa097d6",
         "android_client_info": {
-          "package_name": "com.example.messengerapp"
+          "package_name": "com.message.messengerapp"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "224314939107-lv6f21o08471t0piivq673fu3tnnoo7h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.messengerapp",
+            "package_name": "com.message.messengerapp",
             "certificate_hash": "144df99777e368403a194ed818ee3952df5f1fab"
           }
         },

@@ -1,14 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.messengerapp">
-
+    package="com.message.messengerapp">
     <!-- Add internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Add access network state permission -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Add access network state permission -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.message.messengerapp.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,29 +17,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
-
         <activity
-            android:name=".WelcomeActivity"
+            android:name="com.message.messengerapp.MessageChatActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.message.messengerapp.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".LoginActivity"
+            android:name="com.message.messengerapp.LoginActivity"
             android:exported="false" />
-
         <activity
-            android:name=".RegisterActivity"
+            android:name="com.message.messengerapp.RegisterActivity"
             android:exported="false" />
-
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-        </activity>
-
+            android:name="com.message.messengerapp.MainActivity"
+            android:exported="true"></activity>
     </application>
 
 </manifest>
