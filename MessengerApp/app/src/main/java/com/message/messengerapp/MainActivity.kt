@@ -1,7 +1,5 @@
 package com.message.messengerapp
 
-
-import com.message.messengerapp.Fragments.ChatsFragment
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -13,7 +11,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.viewpager.widget.ViewPager
 import com.message.messengerapp.databinding.ActivityMainBinding
-
+import com.message.messengerapp.Fragments.ChatsFragment
 import com.message.messengerapp.Fragments.SearchFragment
 import com.message.messengerapp.Fragments.SettingsFragment
 import com.message.messengerapp.ModelClasses.Users
@@ -29,10 +27,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 
+// MainActivity class responsible for managing the main user interface of the app
 class MainActivity : AppCompatActivity() {
 
+    // Firebase references
     var refUsers: DatabaseReference? = null
     var firebaseUser: FirebaseUser? = null
+
+    // View binding and layout elements
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -44,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarMain)
         supportActionBar?.title = ""
 
+        // Initialize Firebase components
         firebaseUser = FirebaseAuth.getInstance().currentUser
         refUsers = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser!!.uid)
 
@@ -60,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         viewPager.adapter = viewPagerAdapter  // Set the adapter to the ViewPager
         tabLayout.setupWithViewPager(viewPager)
 
+        // Listen for changes in user data
         refUsers!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -83,11 +87,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // Inflate the options menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
+    // Handle menu item clicks
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.actionLogout -> {
@@ -108,6 +114,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    // ViewPagerAdapter class for managing ViewPager fragments
     internal class ViewPagerAdapter(fragmentManager: FragmentManager) :
         FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
@@ -131,4 +138,25 @@ class MainActivity : AppCompatActivity() {
             return titles[position]
         }
     }
+
+    // Update user status to online when the activity resumes
+    private fun updateStatus(status: String) {
+        val ref =
+            FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser!!.uid)
+        val hashMap = HashMap<String, Any>()
+        hashMap["status"] = status
+        ref.updateChildren(hashMap)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateStatus("online")
+    }
+
+    // Update user status to offline when the activity is paused
+    override fun onPause() {
+        super.onPause()
+        updateStatus("offline")
+    }
+
 }

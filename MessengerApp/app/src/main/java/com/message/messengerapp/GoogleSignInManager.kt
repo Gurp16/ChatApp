@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.android.gms.common.api.ApiException
 
+// Class responsible for managing Google Sign-In functionality
 class GoogleSignInManager(private val activity: Activity, private val callback: SignInCallback) {
 
     private val TAG = "GoogleSignInManager"
@@ -19,6 +20,7 @@ class GoogleSignInManager(private val activity: Activity, private val callback: 
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
 
+    // Initialize FirebaseAuth and GoogleSignInClient
     init {
         auth = FirebaseAuth.getInstance()
 
@@ -30,12 +32,14 @@ class GoogleSignInManager(private val activity: Activity, private val callback: 
         googleSignInClient = GoogleSignIn.getClient(activity, gso)
     }
 
+    // Method to initiate Google Sign-In
     fun signIn() {
         Log.d(TAG, "signIn() method called")
         val signInIntent = googleSignInClient.signInIntent
         activity.startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
+    // Method to handle the result of Google Sign-In activity
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RC_SIGN_IN) {
             Log.d(TAG, "onActivityResult() method called with requestCode=$requestCode")
@@ -50,6 +54,7 @@ class GoogleSignInManager(private val activity: Activity, private val callback: 
         }
     }
 
+    // Authenticate with Firebase using Google credentials
     private fun firebaseAuthWithGoogle(idToken: String) {
         Log.d(TAG, "firebaseAuthWithGoogle() method called")
         val credential = GoogleAuthProvider.getCredential(idToken, null)
@@ -65,6 +70,7 @@ class GoogleSignInManager(private val activity: Activity, private val callback: 
             }
     }
 
+    // Callback interface for sign-in success and failure events
     interface SignInCallback {
         fun onSignInSuccess()
         fun onSignInFailure(errorMessage: String)

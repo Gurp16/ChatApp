@@ -31,15 +31,13 @@ class SettingsFragment : Fragment() {
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
 
-    private var userReference: DatabaseReference? = null
-    private var firebaseUser: FirebaseUser? = null
-    private val RequestCode = 438
-    private var imageUri: Uri? = null
-    private var storageRef: StorageReference? = null
-    private var coverChecker: String? = ""
-    private var socialChecker: String? = ""
-
-
+    private var userReference: DatabaseReference? = null // Reference to the current user's database node
+    private var firebaseUser: FirebaseUser? = null // Current Firebase user
+    private val RequestCode = 438 // Request code for picking an image
+    private var imageUri: Uri? = null // Uri of the selected image
+    private var storageRef: StorageReference? = null // Reference to Firebase Storage for storing images
+    private var coverChecker: String? = "" // Indicates whether the user is setting a cover image or profile image
+    private var socialChecker: String? = "" // Indicates the type of social link being set (e.g., Facebook, Instagram)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,20 +50,24 @@ class SettingsFragment : Fragment() {
         userReference = FirebaseDatabase.getInstance().reference.child("Users").child(firebaseUser!!.uid)
         storageRef = FirebaseStorage.getInstance().reference.child("User Image")
 
+        // Listen for changes to the current user's data in the database
         userReference!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val user: Users? = snapshot.getValue(Users::class.java)
-                    binding.usernamesettings.text = user?.getUsername()
-                    val profileImageUrl = user?.getProfile()
-                    if (!profileImageUrl.isNullOrEmpty()) {
-                        if (context != null) {
-                            Picasso.get().load(profileImageUrl).into(binding.profileImage)
-                            Picasso.get().load(profileImageUrl).into(binding.coverImage)
+                    if (_binding != null) {
+                        _binding!!.usernamesettings.text = user?.getUsername()
+                        val profileImageUrl = user?.getProfile()
+                        if (!profileImageUrl.isNullOrEmpty()) {
+                            // Load the profile and cover images using Picasso if available
+                            if (context != null) {
+                                Picasso.get().load(profileImageUrl).into(_binding!!.profileImage)
+                                Picasso.get().load(profileImageUrl).into(_binding!!.coverImage)
+                            }
+                        } else {
+                            // Handle case when profile image URL is empty or null
+                            // For example, you can set a default image or show an error message
                         }
-                    } else {
-                        // Handle case when profile image URL is empty or null
-                        // For example, you can set a default image or show an error message
                     }
                 }
             }
@@ -75,6 +77,7 @@ class SettingsFragment : Fragment() {
             }
         })
 
+        // Set click listeners for profile and cover images to allow the user to change them
         binding.profileImage.setOnClickListener{
             pickImage()
         }
@@ -84,6 +87,7 @@ class SettingsFragment : Fragment() {
             pickImage()
         }
 
+        // Set click listeners for social links buttons
         binding.setFacebook.setOnClickListener{
             socialChecker = "facebook"
             setSocialLinks()
@@ -100,41 +104,44 @@ class SettingsFragment : Fragment() {
         return view
     }
 
+    // Function to set social links (e.g., Facebook, Instagram, Website)
     private fun setSocialLinks() {
 
         val builder: AlertDialog.Builder =
             AlertDialog.Builder(context!!, com.google.android.material.R.style.Theme_AppCompat_DayNight_Dialog_Alert)
 
+        // Determine the title based on the socialChecker value
         if(socialChecker == "website")
         {
             builder.setTitle("Write Url")
         }
         else{
-            builder.setTitle("write usernmae")
+            builder.setTitle("write username")
         }
 
         val editText = EditText(context)
 
-        if(socialChecker == "website")
+        // Set hint text based on the socialChecker value
+        if (socialChecker == "website")
         {
             editText.hint = "e.g www.google.com"
         }
-        else{
+        else {
             editText.hint = "e.g Gurpreet"
         }
         builder.setView(editText)
 
         builder.setPositiveButton("Create", DialogInterface.OnClickListener{
-            dialog, which ->
+                dialog, which ->
             val str = editText.text.toString()
 
             if(str == ""){
-                Toast.makeText(context, "Please write someting....", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Please write something....", Toast.LENGTH_SHORT).show()
             }
             else{
                 saveSociallink(str)
             }
-        }) 
+        })
         builder.setNegativeButton("Create", DialogInterface.OnClickListener { dialog, which ->
             dialog.cancel()
         })
@@ -142,12 +149,10 @@ class SettingsFragment : Fragment() {
         builder.show()
     }
 
+    // Function to save social links to the database
     private fun saveSociallink(str: String) {
 
-
         val mapSocial= HashMap<String, Any>()
-//        mapSocial["cover"] = url
-//        userReference!!.updateChildren(mapCoverImg)
 
         when (socialChecker)
         {
@@ -160,20 +165,19 @@ class SettingsFragment : Fragment() {
             "website" ->{
                 mapSocial["facebook"] = "https:///$str"
             }
-
         }
 
         userReference!!.updateChildren(mapSocial).addOnCompleteListener{
-            task->
+                task->
             if(task.isSuccessful)
             {
-                Toast.makeText(context, "saved Sucessfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "saved Successfully", Toast.LENGTH_SHORT).show()
 
             }
         }
-
     }
 
+    // Function to pick an image from the device storage
     private fun pickImage() {
         val intent = Intent()
         intent.type = "image/*"
@@ -181,6 +185,7 @@ class SettingsFragment : Fragment() {
         startActivityForResult(intent, RequestCode)
     }
 
+    // Handle the result of picking an image
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -191,6 +196,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    // Function to upload the selected image to Firebase Storage
     private fun uploadImageToDatabase() {
         if (imageUri != null) {
             val progressBar = ProgressDialog(context)

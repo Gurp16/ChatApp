@@ -1,16 +1,20 @@
 package com.message.messengerapp.ModelClasses
 
+// Class representing a chat message
 class Chat {
 
+    // Private properties representing various attributes of a chat message
     private var sender: String = ""
     private var message: String = ""
     private var receiver: String = ""
-    private var isSeen: Boolean = false
-    private var url: String = ""
-    private var messageId: String = ""
+    private var isSeen: Boolean = false // Indicates whether the message has been seen by the receiver
+    private var url: String = "" // URL for any attached media (e.g., images)
+    private var messageId: String = "" // Unique ID for each message
 
+    // Default constructor required for Firebase
     constructor()
 
+    // Parameterized constructor for initializing all properties of the chat message
     constructor(
         sender: String,
         message: String,
@@ -27,6 +31,7 @@ class Chat {
         this.messageId = messageId
     }
 
+    // Getter and setter methods for each property of the chat message
     fun getSender(): String {
         return sender
     }
@@ -51,16 +56,12 @@ class Chat {
         this.receiver = receiver
     }
 
-    fun isSeen(): Boolean {
-        return isSeen
-    }
-
-    // Rename the isSeen method
+    // Getter method for isSeen field
     fun getIsSeen(): Boolean {
         return isSeen
     }
 
-    // Add setter for isSeen field
+    // Setter method for isSeen field
     fun setIsSeen(isSeen: Boolean) {
         this.isSeen = isSeen
     }

@@ -14,7 +14,7 @@ android {
         applicationId = "com.message.messengerapp"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
+        versionCode = 3
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -52,6 +52,8 @@ dependencies {
     implementation (platform("com.google.firebase:firebase-bom:32.7.3"))
 
     // Firebase dependencies managed by Firebase BOM
+    implementation ("com.google.firebase:firebase-messaging:22.0.0")
+
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
@@ -64,6 +66,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.google.firebase:firebase-auth:21.0.1")
     implementation ("com.google.android.gms:play-services-auth:20.5.0")
+    implementation("androidx.databinding:databinding-runtime:8.3.1")
 
 
     testImplementation("junit:junit:4.13.2")
